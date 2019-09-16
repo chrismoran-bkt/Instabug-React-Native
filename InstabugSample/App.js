@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 
 import Instabug, { BugReporting, FeatureRequests, Surveys, Chats, CrashReporting, Replies } from'instabug-reactnative';
+import config from './app.config';
 
 
 const instructions = Platform.select({
@@ -35,18 +36,18 @@ export default class App extends Component<{}> {
       colorTheme: 'Light'
     };
 
-    Instabug.startWithToken("YOUR_TOKEN", [Instabug.invocationEvent.shake]);
+    Instabug.startWithToken(config.token, [Instabug.invocationEvent.shake]);
   }
 
   render() {
     return (
-      <View testID='welcome' style={styles.container}>
+      <View testID='appMainView' style={styles.container}>
         <ScrollView contentContainerStyle={styles.contentContainer} >
           <Text style={styles.details}>
             Hello {"Instabug's"} awesome user! The purpose of this application is to show you the different
             options for customizing the SDK and how easy it is to integrate it to your existing app
           </Text>
-          <TouchableOpacity style={styles.button} onPress={()=>this.invoke()}>
+          <TouchableOpacity testID="invokeBtn" style={styles.button} onPress={()=>this.invoke()}>
             <Text style={styles.text}> INVOKE </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={()=>this.sendBugReport()}>

@@ -149,6 +149,9 @@ jobs:
       - checkout:
           path: ~/project
       - run:
+          name: Set Application Token
+          command: sed -i.bak 's|YOUR_TOKEN|'"$RN_E2E_APP_TOKEN"'|g' app.config.js
+      - run:
           name: Install React Native CLI
           command: npm install -g react-native-cli
       - run:
@@ -180,6 +183,9 @@ jobs:
     steps:
       - checkout:
           path: ~/project
+      - run:
+          name: Set Application Token
+          command: sed -i.bak 's|YOUR_TOKEN|'"$RN_E2E_APP_TOKEN"'|g' app.config.js
       - run:
           name: Install Android SDK
           command: |
@@ -251,8 +257,10 @@ workflows:
       - test_sample
       - test_android
       - test_ios
-      - e2e_ios
-      - e2e_android
+      - e2e_ios:
+          context: cross-platform
+      - e2e_android:
+          context: cross-platform
       - hold:
           requires:
             - test_module
