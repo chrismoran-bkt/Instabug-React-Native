@@ -1813,9 +1813,9 @@ detect-newline@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-2.1.0.tgz#f41f1c10be4b00e87b5f13da680759f2c5bfd3e2"
 
-detox@^13.2.0:
+detox@Instabug/Detox#build/13.3.3-native-id:
   version "13.3.3"
-  resolved "https://registry.yarnpkg.com/detox/-/detox-13.3.3.tgz#caef4e14f9a5021207f88f4960d092afd9703a1e"
+  resolved "https://codeload.github.com/Instabug/Detox/tar.gz/dcef7a07890e23ec47558fa96cc60d8e193de816"
   dependencies:
     "@babel/core" "^7.4.5"
     bunyan "^1.8.12"
@@ -2756,7 +2756,7 @@ inquirer@^6.4.1:
     through "^2.3.6"
 
 instabug-reactnative@../:
-  version "8.6.1"
+  version "8.6.4"
 
 invariant@^2.2.4:
   version "2.2.4"

@@ -150,7 +150,9 @@ jobs:
           path: ~/project
       - run:
           name: Set Application Token
-          command: sed -i.bak 's|YOUR_TOKEN|'"$RN_E2E_APP_TOKEN"'|g' app.config.js
+          command: |
+            echo 'export INSTABUG_APP_TOKEN="$RN_E2E_APP_TOKEN"' >> $BASH_ENV
+            sed -i.bak 's|YOUR_TOKEN|'"$RN_E2E_APP_TOKEN"'|g' app.config.js
       - run:
           name: Install React Native CLI
           command: npm install -g react-native-cli
@@ -183,9 +185,21 @@ jobs:
     steps:
       - checkout:
           path: ~/project
+      - restore_cache:
+          keys:
+            - rn_android_cache 
       - run:
           name: Set Application Token
-          command: sed -i.bak 's|YOUR_TOKEN|'"$RN_E2E_APP_TOKEN"'|g' app.config.js
+          command: |
+            echo 'export INSTABUG_APP_TOKEN="$RN_E2E_APP_TOKEN"' >> $BASH_ENV
+            sed -i.bak 's|YOUR_TOKEN|'"$RN_E2E_APP_TOKEN"'|g' app.config.js
+            sed -i.bak 's|YOUR_TOKEN|'"$RN_E2E_APP_TOKEN"'|g' android/app/src/main/java/com/instabugsample/MainApplication.java
+      - run:
+          name: Install Java 8
+          command: |
+            HOMEBREW_NO_AUTO_UPDATE=1 brew tap AdoptOpenJDK/openjdk
+            HOMEBREW_NO_AUTO_UPDATE=1 brew cask install adoptopenjdk/openjdk/adoptopenjdk8
+            HOMEBREW_NO_AUTO_UPDATE=1 brew cask install adoptopenjdk/openjdk/adoptopenjdk8-jre
       - run:
           name: Install Android SDK
           command: |
@@ -226,16 +240,28 @@ jobs:
       - run:
           name: Install Detox CLI
           command: sudo npm install -g detox-cli
+      # - run:
+      #     name: Install Java 12
+      #     command: |
+      #       echo 'export JAVA_HOME=`/usr/libexec/java_home -v 12`' >> $BASH_ENV
+      #       HOMEBREW_NO_AUTO_UPDATE=1 brew cask install java
       - run:
           name: Detox - Build Release App
           command: |
             sudo chmod -R 777 /Users/distiller/project/InstabugSample/node_modules/instabug-reactnative
+            sudo chmod -R 777 /Users/distiller/project/InstabugSample/node_modules/detox
             detox build --configuration android.emu.release
       - run:
           name: Detox - Run E2E Tests
           command: |
             sudo chmod -R 777 /Users/distiller/Library/Detox
-            detox test --configuration android.emu.release --cleanup
+            detox test --configuration android.emu.release --loglevel verbose --cleanup
+      - save_cache:
+          key: rn_android_cache
+          paths:
+            - ~/.gradle
+            - ~/node_modules
+            - ~/android-sdk
 
 
   publish:
@@ -279,4 +305,3 @@ workflows:
           filters:
             branches:
               only: master
-

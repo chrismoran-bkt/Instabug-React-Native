@@ -36,7 +36,7 @@ export default class App extends Component<{}> {
       colorTheme: 'Light'
     };
 
-    Instabug.startWithToken(config.token, [Instabug.invocationEvent.shake]);
+    Instabug.startWithToken(config.token, [Instabug.invocationEvent.shake, Instabug.invocationEvent.floatingButton]);
   }
 
   render() {
@@ -107,7 +107,7 @@ export default class App extends Component<{}> {
             <TouchableOpacity style={styles.buttonColor} onPress={()=>this.changeInvocationEvent('twoFingersSwipe')}>
               <Text style={styles.textInvoke}> TWO FINGERS SWIPE LEFT</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonColor} onPress={()=>this.changeInvocationEvent('Button')}>
+            <TouchableOpacity testID="enableFloatingBtnVisibilityBtn" style={styles.buttonColor} onPress={()=>this.changeInvocationEvent('Button')}>
               <Text style={styles.textInvoke}> FLOATING BUTTON </Text>
             </TouchableOpacity>       
             <TouchableOpacity style={styles.buttonColor} onPress={()=>this.changeInvocationEvent('None')}>
