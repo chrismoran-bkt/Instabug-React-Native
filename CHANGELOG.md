@@ -1,3 +1,8 @@
+## master
+
+* Fixes the automatic uploading of the source map files in some cases due to incorrect regex.
+* Add a new string reportQuestion to replace the deprecated string startChats.
+
 ## v8.7.1 (2019-10-02)
 
 * Updates native iOS SDK to v8.7.2
